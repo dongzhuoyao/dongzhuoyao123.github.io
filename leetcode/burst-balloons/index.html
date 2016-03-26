@@ -1,0 +1,102 @@
+	<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.15" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> burst balloons &middot; 董卓瑶的博客 </title>
+
+  
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/poole.css">
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/syntax.css">
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="董卓瑶的博客" />
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a749262c9b9bcd788f40f5142d74182d";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+
+	<body class="">
+		<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://dongzhuoyao.github.io/"><h1>董卓瑶的博客</h1></a>
+      <p class="lead">
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+    </ul>
+
+    <p>&copy; 2016. All rights reserved. </p>
+  </div>
+</div>
+
+
+		<div class="content container">
+			<div class="post">
+			 	<h1>burst balloons</h1>
+			  <span class="post-date">Thu, Mar 17, 2016</span>
+			      
+
+<h2 id="burst-balloons:830d606553cca8adf80e61adb8bded6a">burst balloons</h2>
+
+<p>本题主要考察动态规划。</p>
+
+<p>基本做法和poj中的类似,只是需要在数组前后增加一个1.具体代码如下:</p>
+
+<pre><code>class Solution {
+public:
+    int maxCoins(vector&lt;int&gt;&amp; nums) {
+        nums.insert(nums.begin(), 1);
+        nums.push_back(1);
+
+        int cnt = nums.size();
+        vector&lt;vector&lt;int&gt; &gt; matrix(cnt,vector&lt;int&gt;(cnt,0));
+        //init
+        for(int i=0;i&lt;cnt;i++)
+            matrix[i][i] = nums[i];
+
+        for(int length = 2;length&lt;cnt;length++){
+            for(int start = 0;start&lt;cnt-length;start++){
+                int end = start + length,max=0;
+                for(int mid=start+1;mid&lt;end;mid++){
+                    int tmp = matrix[start][mid]+matrix[mid][end]+nums[start]*nums[mid]*nums[end];
+                    max = tmp&gt;max?tmp:max;
+                }
+                  matrix[start][end] = max;
+            }
+        }
+
+        return matrix[0][cnt-1];
+    }
+};
+</code></pre>
+
+			</div>
+
+			
+		</div>
+
+  </body>
+</html>

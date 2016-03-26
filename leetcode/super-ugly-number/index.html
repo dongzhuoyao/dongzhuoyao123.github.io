@@ -1,0 +1,118 @@
+	<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.15" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> super ugly number &middot; 董卓瑶的博客 </title>
+
+  
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/poole.css">
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/syntax.css">
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="董卓瑶的博客" />
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a749262c9b9bcd788f40f5142d74182d";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+
+	<body class="">
+		<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://dongzhuoyao.github.io/"><h1>董卓瑶的博客</h1></a>
+      <p class="lead">
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+    </ul>
+
+    <p>&copy; 2016. All rights reserved. </p>
+  </div>
+</div>
+
+
+		<div class="content container">
+			<div class="post">
+			 	<h1>super ugly number</h1>
+			  <span class="post-date">Fri, Mar 25, 2016</span>
+			      
+
+<h5 id="本题可以采用多种方法来解-比较好的方法是采用动态规划来解决-下面先来介绍一下dp的解题思路:26b2c7a9fd3c356def775e8156b14900">本题可以采用多种方法来解,比较好的方法是采用动态规划来解决，下面先来介绍一下DP的解题思路:</h5>
+
+<p>转移方程为:</p>
+
+<pre><code>dp[i+1] = min{dp[index[j]] * primes[j]};(0&lt;=i&lt;n-2;0&lt;=j&lt;primes.size())
+</code></pre>
+
+<p>dp[i+1]表示第i+1个super ugly number,很明显我们要求的是dp[n-1];</p>
+
+<p>index[j]表示第j个prime要相乘的数，所对应的在dp这个数组中的index。</p>
+
+<p>比如对于2, 7, 13, 19这四个prime</p>
+
+<p>有2 * a , 7 * b,13 * c,19 * d 这四种可能</p>
+
+<p>a,b,c,d这四个数越大,很明显最终的结果就越大,a,b,c,d这四个数越小,最终的结果就越小,而且a,b,c,d这四个数本身也必须是一个super ugly number</p>
+
+<p>这里dp,index这两个数组很巧妙的利用了前面的计算结果来生成第i+1个super ugly number,在生成过程中的a,b,c,d参数的选取就是按照前0~i个dp值来进行运算的,所以就有了上面的递推公式。</p>
+
+<p><img src="/img/super-ugly-number.png" alt="示例图" /></p>
+
+<p><a href="https://www.processon.com/view/link/56f4e75ee4b05ca7f153510a">图片源码链接</a></p>
+
+<p>具体代码如下:</p>
+
+<pre><code>class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector&lt;int&gt;&amp; primes) {
+        int size = primes.size();
+        vector&lt;int&gt; index =  vector&lt;int&gt;(size);
+        vector&lt;int&gt; dp =  vector&lt;int&gt;(n);
+        dp[0] = 1;
+        for(int i=1;i&lt;n;i++){
+            //int min = 999999999;
+            int min = 9999999999;
+            for(int j=0;j&lt;size;j++){
+                min = dp[index[j]]*primes[j]&lt;min?dp[index[j]]*primes[j]:min;
+            }
+            dp[i] = min;
+            for(int j=0;j&lt;size;j++){
+                if(dp[i]%primes[j]==0)
+                    index[j]++;
+            }
+        }
+
+        return dp[n-1];
+    }
+};
+</code></pre>
+
+			</div>
+
+			
+		</div>
+
+  </body>
+</html>

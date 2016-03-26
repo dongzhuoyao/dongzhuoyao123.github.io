@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>董卓瑶的博客</title>
+    <link>http://dongzhuoyao.github.io/</link>
+    <description>Recent content on 董卓瑶的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 26 Mar 2016 16:21:57 +0800</lastBuildDate>
+    <atom:link href="http://dongzhuoyao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Remove Duplicates from Sorted Array</title>
+      <link>http://dongzhuoyao.github.io/leetcode/Remove-Duplicates-from-Sorted-Array/</link>
+      <pubDate>Sat, 26 Mar 2016 16:21:57 +0800</pubDate>
+      
+      <guid>http://dongzhuoyao.github.io/leetcode/Remove-Duplicates-from-Sorted-Array/</guid>
+      <description>&lt;p&gt;题目很简单,需要注意的是vector中的erase方法,会返回已删除元素的下一个位置,所以就不需要将迭代器自增了.&lt;/p&gt;
+
+&lt;p&gt;具体代码如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+public:
+    int removeDuplicates(vector&amp;lt;int&amp;gt;&amp;amp; nums) {
+        if(nums.size()&amp;lt;=1)
+            return nums.size();
+         vector&amp;lt;int&amp;gt;::iterator it;
+         int pre = nums[0];
+         it=nums.begin();it++;
+     for(it;it!=nums.end();)
+     {
+         if(*it  == pre){
+             it=nums.erase(it);    //删除元素，返回值指向已删除元素的下一个位置
+         }
+         else{
+             pre = *it;
+             ++it;    //指向下一个位置
+         }
+     }
+
+     return nums.size();
+    }
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Trapping Rain Water</title>
+      <link>http://dongzhuoyao.github.io/leetcode/Trapping-Rain-Water/</link>
+      <pubDate>Sat, 26 Mar 2016 16:02:24 +0800</pubDate>
+      
+      <guid>http://dongzhuoyao.github.io/leetcode/Trapping-Rain-Water/</guid>
+      <description>&lt;p&gt;要求这种结构所能盛下的最多的雨水,只需要针对每个节点(height[i]),求出它左右的最高点(leftMax,minMax)。&lt;/p&gt;
+
+&lt;p&gt;则该点所能盛下的雨水是:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;min(leftMax,minMax)-height[i]  (当然前提是大于0)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所以最终的算法就是,从做往右遍历一遍求每个点的leftMax&lt;/p&gt;
+
+&lt;p&gt;然后从右往左遍历一遍求每个点的rightMax&lt;/p&gt;
+
+&lt;p&gt;然后针对每个点再遍历一次(可以共用上面的遍历),求出该节点所能剩下的水.&lt;/p&gt;
+
+&lt;p&gt;具体代码如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+public:
+    int trap(vector&amp;lt;int&amp;gt;&amp;amp; height) {
+        int size = height.size();
+        if(size==0)
+            return 0;
+        vector&amp;lt;int&amp;gt; leftMax = vector&amp;lt;int&amp;gt;(size,0);
+        vector&amp;lt;int&amp;gt; rightMax = vector&amp;lt;int&amp;gt;(size,0);
+
+        int max=0;
+        leftMax[0] = 0;
+        for(int i=1;i&amp;lt;size;i++){
+            max = height[i-1]&amp;gt;max?height[i-1]:max;
+            leftMax[i] = max;
+        }
+        max = 0;
+        int total = 0;
+        rightMax[size-1]=0;
+        for(int i=size-2;i&amp;gt;=0;i--){
+            max = height[i+1]&amp;gt;max?height[i+1]:max;
+            rightMax[i] = max;
+            int min = leftMax[i]&amp;gt;rightMax[i]?rightMax[i]:leftMax[i];
+            if(min&amp;gt;=height[i]){
+                total+=(min-height[i]);
+            }
+        }
+        return total;
+    }
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>super ugly number</title>
+      <link>http://dongzhuoyao.github.io/leetcode/super-ugly-number/</link>
+      <pubDate>Fri, 25 Mar 2016 14:38:50 +0800</pubDate>
+      
+      <guid>http://dongzhuoyao.github.io/leetcode/super-ugly-number/</guid>
+      <description>
+
+&lt;h5 id=&#34;本题可以采用多种方法来解-比较好的方法是采用动态规划来解决-下面先来介绍一下dp的解题思路:26b2c7a9fd3c356def775e8156b14900&#34;&gt;本题可以采用多种方法来解,比较好的方法是采用动态规划来解决，下面先来介绍一下DP的解题思路:&lt;/h5&gt;
+
+&lt;p&gt;转移方程为:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dp[i+1] = min{dp[index[j]] * primes[j]};(0&amp;lt;=i&amp;lt;n-2;0&amp;lt;=j&amp;lt;primes.size())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;dp[i+1]表示第i+1个super ugly number,很明显我们要求的是dp[n-1];&lt;/p&gt;
+
+&lt;p&gt;index[j]表示第j个prime要相乘的数，所对应的在dp这个数组中的index。&lt;/p&gt;
+
+&lt;p&gt;比如对于2, 7, 13, 19这四个prime&lt;/p&gt;
+
+&lt;p&gt;有2 * a , 7 * b,13 * c,19 * d 这四种可能&lt;/p&gt;
+
+&lt;p&gt;a,b,c,d这四个数越大,很明显最终的结果就越大,a,b,c,d这四个数越小,最终的结果就越小,而且a,b,c,d这四个数本身也必须是一个super ugly number&lt;/p&gt;
+
+&lt;p&gt;这里dp,index这两个数组很巧妙的利用了前面的计算结果来生成第i+1个super ugly number,在生成过程中的a,b,c,d参数的选取就是按照前0~i个dp值来进行运算的,所以就有了上面的递推公式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://dongzhuoyao.github.io/img/super-ugly-number.png&#34; alt=&#34;示例图&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.processon.com/view/link/56f4e75ee4b05ca7f153510a&#34;&gt;图片源码链接&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;具体代码如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector&amp;lt;int&amp;gt;&amp;amp; primes) {
+        int size = primes.size();
+        vector&amp;lt;int&amp;gt; index =  vector&amp;lt;int&amp;gt;(size);
+        vector&amp;lt;int&amp;gt; dp =  vector&amp;lt;int&amp;gt;(n);
+        dp[0] = 1;
+        for(int i=1;i&amp;lt;n;i++){
+            //int min = 999999999;
+            int min = 9999999999;
+            for(int j=0;j&amp;lt;size;j++){
+                min = dp[index[j]]*primes[j]&amp;lt;min?dp[index[j]]*primes[j]:min;
+            }
+            dp[i] = min;
+            for(int j=0;j&amp;lt;size;j++){
+                if(dp[i]%primes[j]==0)
+                    index[j]++;
+            }
+        }
+
+        return dp[n-1];
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sum Root to Leaf Numbers</title>
+      <link>http://dongzhuoyao.github.io/leetcode/Sum-Root-to-Leaf-Numbers/</link>
+      <pubDate>Wed, 23 Mar 2016 16:11:33 +0800</pubDate>
+      
+      <guid>http://dongzhuoyao.github.io/leetcode/Sum-Root-to-Leaf-Numbers/</guid>
+      <description>&lt;p&gt;如果root==NULL：说明递归到最底层,返回0&lt;/p&gt;
+
+&lt;p&gt;如果root不为空但是它的左右子树都为空:则直接将此root参与运算&lt;/p&gt;
+
+&lt;p&gt;如果root,左节点,右节点不全部为空:则可以递归执行函数.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://dongzhuoyao.github.io/img/Sum Root to Leaf Numbers.png&#34; alt=&#34;示例图&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;具体代码如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        return nums(root,0);
+    }
+
+    int nums(TreeNode* root,int sum){
+       if(root==NULL)
+            return 0;
+        else if((root-&amp;gt;left==NULL)&amp;amp;&amp;amp;(root-&amp;gt;right==NULL)){
+            return sum*10+root-&amp;gt;val;
+        }else{
+            return nums(root-&amp;gt;left,sum*10+root-&amp;gt;val)+nums(root-&amp;gt;right,sum*10+root-&amp;gt;val);
+        }
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>burst balloons</title>
+      <link>http://dongzhuoyao.github.io/leetcode/burst-balloons/</link>
+      <pubDate>Thu, 17 Mar 2016 22:53:42 +0800</pubDate>
+      
+      <guid>http://dongzhuoyao.github.io/leetcode/burst-balloons/</guid>
+      <description>
+
+&lt;h2 id=&#34;burst-balloons:830d606553cca8adf80e61adb8bded6a&#34;&gt;burst balloons&lt;/h2&gt;
+
+&lt;p&gt;本题主要考察动态规划。&lt;/p&gt;
+
+&lt;p&gt;基本做法和poj中的类似,只是需要在数组前后增加一个1.具体代码如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Solution {
+public:
+    int maxCoins(vector&amp;lt;int&amp;gt;&amp;amp; nums) {
+        nums.insert(nums.begin(), 1);
+        nums.push_back(1);
+
+        int cnt = nums.size();
+        vector&amp;lt;vector&amp;lt;int&amp;gt; &amp;gt; matrix(cnt,vector&amp;lt;int&amp;gt;(cnt,0));
+        //init
+        for(int i=0;i&amp;lt;cnt;i++)
+            matrix[i][i] = nums[i];
+
+        for(int length = 2;length&amp;lt;cnt;length++){
+            for(int start = 0;start&amp;lt;cnt-length;start++){
+                int end = start + length,max=0;
+                for(int mid=start+1;mid&amp;lt;end;mid++){
+                    int tmp = matrix[start][mid]+matrix[mid][end]+nums[start]*nums[mid]*nums[end];
+                    max = tmp&amp;gt;max?tmp:max;
+                }
+                  matrix[start][end] = max;
+            }
+        }
+
+        return matrix[0][cnt-1];
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

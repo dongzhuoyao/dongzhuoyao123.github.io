@@ -1,0 +1,103 @@
+	<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.15" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Sum Root to Leaf Numbers &middot; 董卓瑶的博客 </title>
+
+  
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/poole.css">
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/syntax.css">
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="董卓瑶的博客" />
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a749262c9b9bcd788f40f5142d74182d";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+
+	<body class="">
+		<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://dongzhuoyao.github.io/"><h1>董卓瑶的博客</h1></a>
+      <p class="lead">
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+    </ul>
+
+    <p>&copy; 2016. All rights reserved. </p>
+  </div>
+</div>
+
+
+		<div class="content container">
+			<div class="post">
+			 	<h1>Sum Root to Leaf Numbers</h1>
+			  <span class="post-date">Wed, Mar 23, 2016</span>
+			      <p>如果root==NULL：说明递归到最底层,返回0</p>
+
+<p>如果root不为空但是它的左右子树都为空:则直接将此root参与运算</p>
+
+<p>如果root,左节点,右节点不全部为空:则可以递归执行函数.</p>
+
+<p><img src="/img/Sum Root to Leaf Numbers.png" alt="示例图" /></p>
+
+<p>具体代码如下:</p>
+
+<pre><code>/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        return nums(root,0);
+    }
+
+    int nums(TreeNode* root,int sum){
+       if(root==NULL)
+            return 0;
+        else if((root-&gt;left==NULL)&amp;&amp;(root-&gt;right==NULL)){
+            return sum*10+root-&gt;val;
+        }else{
+            return nums(root-&gt;left,sum*10+root-&gt;val)+nums(root-&gt;right,sum*10+root-&gt;val);
+        }
+    }
+};
+</code></pre>
+
+			</div>
+
+			
+		</div>
+
+  </body>
+</html>

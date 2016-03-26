@@ -1,0 +1,113 @@
+	<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.15" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Trapping Rain Water &middot; 董卓瑶的博客 </title>
+
+  
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/poole.css">
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/syntax.css">
+  <link rel="stylesheet" href="http://dongzhuoyao.github.io/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="董卓瑶的博客" />
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a749262c9b9bcd788f40f5142d74182d";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+
+	<body class="">
+		<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://dongzhuoyao.github.io/"><h1>董卓瑶的博客</h1></a>
+      <p class="lead">
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+    </ul>
+
+    <p>&copy; 2016. All rights reserved. </p>
+  </div>
+</div>
+
+
+		<div class="content container">
+			<div class="post">
+			 	<h1>Trapping Rain Water</h1>
+			  <span class="post-date">Sat, Mar 26, 2016</span>
+			      <p>要求这种结构所能盛下的最多的雨水,只需要针对每个节点(height[i]),求出它左右的最高点(leftMax,minMax)。</p>
+
+<p>则该点所能盛下的雨水是:</p>
+
+<pre><code>min(leftMax,minMax)-height[i]  (当然前提是大于0)
+</code></pre>
+
+<p>所以最终的算法就是,从做往右遍历一遍求每个点的leftMax</p>
+
+<p>然后从右往左遍历一遍求每个点的rightMax</p>
+
+<p>然后针对每个点再遍历一次(可以共用上面的遍历),求出该节点所能剩下的水.</p>
+
+<p>具体代码如下:</p>
+
+<pre><code>class Solution {
+public:
+    int trap(vector&lt;int&gt;&amp; height) {
+        int size = height.size();
+        if(size==0)
+            return 0;
+        vector&lt;int&gt; leftMax = vector&lt;int&gt;(size,0);
+        vector&lt;int&gt; rightMax = vector&lt;int&gt;(size,0);
+
+        int max=0;
+        leftMax[0] = 0;
+        for(int i=1;i&lt;size;i++){
+            max = height[i-1]&gt;max?height[i-1]:max;
+            leftMax[i] = max;
+        }
+        max = 0;
+        int total = 0;
+        rightMax[size-1]=0;
+        for(int i=size-2;i&gt;=0;i--){
+            max = height[i+1]&gt;max?height[i+1]:max;
+            rightMax[i] = max;
+            int min = leftMax[i]&gt;rightMax[i]?rightMax[i]:leftMax[i];
+            if(min&gt;=height[i]){
+                total+=(min-height[i]);
+            }
+        }
+        return total;
+    }
+};
+
+</code></pre>
+
+			</div>
+
+			
+		</div>
+
+  </body>
+</html>
