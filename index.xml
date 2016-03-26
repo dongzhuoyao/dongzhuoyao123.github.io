@@ -216,7 +216,7 @@ public:
 
 &lt;h2 id=&#34;burst-balloons:830d606553cca8adf80e61adb8bded6a&#34;&gt;burst balloons&lt;/h2&gt;
 
-&lt;p&gt;本题主要考察动态规划。&lt;/p&gt;
+&lt;p&gt;本题主要考察动态规划 。&lt;/p&gt;
 
 &lt;p&gt;基本做法和poj中的类似,只是需要在数组前后增加一个1.具体代码如下:&lt;/p&gt;
 
